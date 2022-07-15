@@ -1,0 +1,86 @@
+---
+layout: layouts/base.njk
+---
+
+{# List #}
+<div class="title">Какие песни поем?</div>
+<div class="box p-5 m-5">
+    <ul id="song-list"></ul>
+</div>
+{# Buttons #}
+<div class="field is-grouped">
+    <div class="control is-expanded">
+        <input id="song-input" class="input" type="text" placeholder="Номер гимна"/>
+    </div>
+    <div class="control">
+        <button class="button is-primary" onclick="addSong()">
+            Добавить
+        </button>
+    </div>
+</div>
+{# Start #}
+<div class="block">
+    <button id="start-btn" class="button is-link is-medium is-fullwidth" disabled="true" onclick="start()">
+        Поехали
+    </button>
+</div>
+{# Page logic #}
+<script>
+    function addSong() { // Get list and input
+        var ul = document.getElementById("song-list");
+        var input = document.getElementById("song-input");
+        var startBtn = document.getElementById("start-btn");
+        // Create new elements
+        var id = `li-${
+            input.value
+        }`
+        var li = document.createElement("li");
+        li.setAttribute('id', id);
+        li.setAttribute('class', "block");
+        var btn = document.createElement("button");
+        btn.setAttribute('aria-label', "Delete");
+        btn.setAttribute('class', "delete is-medium");
+        btn.setAttribute('onclick', `removeSong('${id}')`);
+        var span = document.createElement("span");
+        span.setAttribute('class', "tag is-medium");
+        var text = document.createElement("div");
+        text.setAttribute("class", "hymn-name");
+        text.appendChild(document.createTextNode(input.value));
+        // New elements structure
+        span.appendChild(text);
+        span.appendChild(btn);
+        li.appendChild(span);
+        // Append element to list
+        ul.appendChild(li);
+        // Change start button state
+        startBtn.removeAttribute('disabled');
+        // Clear input and focus
+        input.value = "";
+        input.focus();
+    }
+    function removeSong(id) {
+        var ul = document.getElementById("song-list");
+        var item = document.getElementById(id);
+        ul.removeChild(item);
+        if (ul.childElementCount === 0) {
+            var startBtn = document.getElementById("start-btn");
+            startBtn.setAttribute('disabled', true);
+        }
+    }
+    function start() {
+        // Get hymns as list 
+        const collection = document.getElementsByClassName("hymn-name");
+        var hymns = [];
+        for (let i=0; i<collection.length; i++) {
+            hymns.push(collection[i].innerHTML);
+        }
+        console.log(hymns);
+        // Construct URI with params
+        const url = new URL(`/hymns/${hymns[0]}`, window.location.origin);
+        url.searchParams.set("list", window.btoa(hymns.join(";")));
+        url.searchParams.set("pos", hymns[0]);
+        console.log(url);
+        // Go to hymns page
+        window.location.replace(url.href);
+    }
+</script>

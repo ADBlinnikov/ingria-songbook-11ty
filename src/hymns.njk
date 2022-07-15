@@ -1,0 +1,36 @@
+---
+title: Список гимнов Сборника песен Церкви Ингрии
+layout: layouts/base.njk
+---
+{%- macro row(hymn) -%}
+<li>
+  <a href={{ hymn.url }}>
+    <div>
+      <span class="is-size-4 has-text-black-bis pr-5">{{ hymn.fileSlug }}</span>
+      <span class="is-size-5 has-text-grey-dark">{{ hymn.data.title }}</span>
+    </div>
+  </a>
+</li>
+{%- endmacro -%}
+
+{%- macro section(title, hymns) -%}
+<section class="section">
+  <h1 class="title is-3">{{ title }}</h1>
+  <ul>
+
+    {%- for hymn in hymns -%}
+      {{ row(hymn) }}
+    {%- endfor -%}
+  
+  </ul>
+</section>
+{%- endmacro -%}
+
+<h1 class="title is-2">{{ title }}</h1>
+<ul>
+
+{%- for hymnGroup, hymns in collections.hymnsGroup -%}
+  <li>{{ section(hymnGroup, hymns) }}</li>
+{%- endfor -%}
+
+</ul>
