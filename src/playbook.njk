@@ -3,19 +3,19 @@ layout: layouts/base.njk
 ---
 
 {# List #}
-<div class="title">Какие песни поем?</div>
 <div class="box p-5 m-5">
-    <ul id="song-list"></ul>
-</div>
-{# Buttons #}
-<div class="field is-grouped">
-    <div class="control is-expanded">
-        <input id="song-input" class="input" type="text" placeholder="Номер гимна"/>
-    </div>
-    <div class="control">
-        <button class="button is-primary" onclick="addSong()">
-            Добавить
-        </button>
+    <div class="title">Какие песни поем?</div>
+    <ul id="song-list" class="block"></ul>
+    {# Buttons #}
+    <div class="block field has-addons">
+        <div class="control is-expanded">
+            <input id="song-input" class="input" type="text" placeholder="Номер гимна"/>
+        </div>
+        <div class="control">
+            <button class="button is-primary" onclick="addSong()">
+                Добавить
+            </button>
+        </div>
     </div>
 </div>
 {# Start #}
@@ -35,16 +35,16 @@ layout: layouts/base.njk
             input.value
         }`
         var li = document.createElement("li");
-        li.setAttribute('id', id);
-        li.setAttribute('class', "block");
+        li.id = id;
+        li.className = "block";
         var btn = document.createElement("button");
-        btn.setAttribute('aria-label', "Delete");
-        btn.setAttribute('class', "delete is-medium");
+        btn.ariaLabel = "Delete";
+        btn.className = "delete is-medium";
         btn.setAttribute('onclick', `removeSong('${id}')`);
         var span = document.createElement("span");
-        span.setAttribute('class', "tag is-medium");
+        span.className = "tag is-medium";
         var text = document.createElement("div");
-        text.setAttribute("class", "hymn-name");
+        text.className = "hymn-name";
         text.appendChild(document.createTextNode(input.value));
         // New elements structure
         span.appendChild(text);
