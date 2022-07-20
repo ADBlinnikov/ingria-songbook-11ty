@@ -1,8 +1,22 @@
 ---
 layout: layouts/base.njk
 ---
-<div>
+<div class="block">
+    <div class="tile is-ancestor m-2 p-2">
+        <div class="tile is-parent is-6 is-vertical">
+            {% if abcNotation %}
+            <div class="tile is-child box">
+                <div id="abcString" hidden>{{ abcNotation }}</div>
+                <div id="paper"></div>
+            </div>
+            {% endif %}
+            <div class="tile is-child box">Раздел: {{ section }}</div>
+        </div>
+        <div class="tile is-parent">
+            <div class="tile is-child box">{{ content | safe }}</div>
+        </div>
+    </div>
+</div>
+<div class="block">
     <nav id="hymn-pagination" class="pagination is-centered" role="navigation" aria-label="pagination"></nav>
-    <div>{{ content | safe }}</div>
-    <div>Раздел: {{ section }}</div>
 </div>

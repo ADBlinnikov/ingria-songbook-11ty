@@ -14,14 +14,10 @@ module.exports = function (eleventyConfig) {
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line.length > 0)
-      .map((line) => `<p>${line}</p>`);
-    return `<div class="columns is-mobile is-multiline m-2">
-      <div class="column has-text-right has-text-left-mobile is-12-mobile">
+      .map((line) => `<div>${line}</div>`);
+    return `<div class="block container is-fluid">
         <h3 class="subtitle has-text-grey">${heading}</h3>
-      </div>
-      <div class="column has-text-left is-12-mobile">
-        <span class="has-text-dark">${lines.join("")}</span>
-      </div>
+        ${lines.join("")}
     </div>`;
   });
 

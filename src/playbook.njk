@@ -9,7 +9,7 @@ layout: layouts/base.njk
     {# Buttons #}
     <div class="block field has-addons">
         <div class="control is-expanded">
-            <input id="song-input" class="input" type="text" placeholder="Номер гимна"/>
+            <input id="song-input" class="input" type="text" placeholder="Номер гимна" />
         </div>
         <div class="control">
             <button class="button is-primary" onclick="addSong()">
@@ -31,9 +31,7 @@ layout: layouts/base.njk
         var input = document.getElementById("song-input");
         var startBtn = document.getElementById("start-btn");
         // Create new elements
-        var id = `li-${
-            input.value
-        }`
+        var id = `li-${input.value}`
         var li = document.createElement("li");
         li.id = id;
         li.className = "block";
@@ -71,7 +69,7 @@ layout: layouts/base.njk
         // Get hymns as list 
         const collection = document.getElementsByClassName("hymn-name");
         var hymns = [];
-        for (let i=0; i<collection.length; i++) {
+        for (let i = 0; i < collection.length; i++) {
             hymns.push(collection[i].innerHTML);
         }
         console.log(hymns);
