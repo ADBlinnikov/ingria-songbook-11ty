@@ -19,6 +19,32 @@ function navbar() {
   });
 }
 
+function initMusicSheetToggleStorage() {
+  const curr = localStorage.getItem("showMusicSheet");
+  console.log("Current sessionStorage value:" + curr);
+  if (!curr) {
+    localStorage.setItem("showMusicSheet", "true");
+  }
+}
+
+function addMusicSheetToggleListener() {
+  const $switch = document.getElementById("showMusicSheet");
+  $switch.checked = localStorage.getItem("showMusicSheet") === "true" ? true : false 
+  $switch.addEventListener("change", () => {
+    localStorage.setItem("showMusicSheet", $switch.checked);
+    updateMusicSheetState();
+  });
+}
+
+function updateMusicSheetState() {
+  const $el = document.getElementById("music-sheet");
+  if (localStorage.getItem("showMusicSheet") === "false") {
+    $el.style.display = "none"
+  } else {
+    $el.style.display = "block"
+  }
+}
+
 function hymnsPagination() {
   const url = new URL(window.location);
   const pathname = url.pathname;
@@ -98,14 +124,14 @@ function renderABC() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Global
+  initMusicSheetToggleStorage();
+  addMusicSheetToggleListener();
   navbar();
   // Path-specific
   const url = new URL(window.location);
   if (url.pathname.startsWith("/hymns/")) {
     hymnsPagination();
     renderABC();
+    updateMusicSheetState();
   }
 });
-
-// Render abcjs
-document.addEventListener("DOMContentLoaded", () => {});
