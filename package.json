@@ -10,7 +10,8 @@
     "build:eleventy": "npx @11ty/eleventy",
     "start": "npm-run-all build:sass --parallel watch:*",
     "build": "npm-run-all build:*",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "aws s3 --endpoint-url=https://storage.yandexcloud.net sync _site s3://www.ingria-songbook.ru/"
   },
   "keywords": [],
   "author": "",

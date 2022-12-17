@@ -75,8 +75,7 @@ layout: layouts/base.njk
         console.log(hymns);
         // Construct URI with params
         const url = new URL(`/hymns/${hymns[0]}`, window.location.origin);
-        url.searchParams.set("list", window.btoa(hymns.join(";")));
-        url.searchParams.set("pos", hymns[0]);
+        sessionStorage.setItem("list", window.btoa(hymns.join(";")));
         console.log(url);
         // Go to hymns page
         window.location.replace(url.href);

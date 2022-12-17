@@ -23,8 +23,10 @@ module.exports = function (eleventyConfig) {
 
   // Collections
   eleventyConfig.addCollection("hymnsGroup", function (collectionApi) {
-    var collection = collectionApi.getFilteredByGlob("src/hymns/*.njk");
-    const groupedCollection = collection.reduce(
+    const col = collectionApi.getFilteredByGlob("src/hymns/*.njk");
+    col.sort((a, b) => parseInt(a.data.name) - parseInt(b.data.name));
+    // const result = new Map(col.map((i) => [i.data.section, i]));
+    const groupedCollection = col.reduce(
       (entryMap, e) =>
         entryMap.set(e.data.section, [
           ...(entryMap.get(e.data.section) || []),
@@ -37,8 +39,8 @@ module.exports = function (eleventyConfig) {
 
   return {
     dir: {
-      input: 'src',
-      output: '_site'
-    }
+      input: "src",
+      output: "_site",
+    },
   };
 };

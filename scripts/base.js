@@ -21,7 +21,6 @@ function navbar() {
 
 function initMusicSheetToggleStorage() {
   const curr = localStorage.getItem("showMusicSheet");
-  console.log("Current sessionStorage value:" + curr);
   if (!curr) {
     localStorage.setItem("showMusicSheet", "true");
   }
@@ -29,7 +28,8 @@ function initMusicSheetToggleStorage() {
 
 function addMusicSheetToggleListener() {
   const $switch = document.getElementById("showMusicSheet");
-  $switch.checked = localStorage.getItem("showMusicSheet") === "true" ? true : false 
+  $switch.checked =
+    localStorage.getItem("showMusicSheet") === "true" ? true : false;
   $switch.addEventListener("change", () => {
     localStorage.setItem("showMusicSheet", $switch.checked);
     updateMusicSheetState();
@@ -38,39 +38,42 @@ function addMusicSheetToggleListener() {
 
 function updateMusicSheetState() {
   const $el = document.getElementById("music-sheet");
-  if (localStorage.getItem("showMusicSheet") === "false") {
-    $el.style.display = "none"
-  } else {
-    $el.style.display = "block"
+  if ($el) {
+    if (localStorage.getItem("showMusicSheet") === "false") {
+      $el.style.display = "none";
+    } else {
+      $el.style.display = "block";
+    }
   }
 }
 
 function hymnsPagination() {
-  const url = new URL(window.location);
-  const pathname = url.pathname;
-  const list = url.searchParams.get("list");
-  const pos = url.searchParams.get("pos");
+  const regex = /\/hymns\/(.*)\/$/;
+  const match = window.location.pathname.match(regex);
+  const list = sessionStorage.getItem("list");
 
-  if ((list !== null) & (pos !== null)) {
+  if ((list !== null) & (match !== null)) {
+    const current = match[1];
     const hymns = window.atob(list).split(";");
-    function format_href(idx) {
-      const url = new URL(`/hymns/${hymns[idx]}`, window.location.origin);
-      url.searchParams.set("list", list);
-      url.searchParams.set("pos", hymns[idx]);
-      return url.href;
+    const pos = hymns.indexOf(current);
+    function goto_hymn(name) {
+      location.href = new URL(
+        `/hymns/${name}`,
+        window.location.origin
+      ).toString();
     }
-    console.log(
-      `Pagination: pathname=${pathname} list=${list} pos=${pos} hymns=${hymns}`
-    );
+    console.log(`Pagination: list=${list} hymns=${hymns}`);
     const $navbar = document.getElementById("hymn-pagination");
     // Previous
     const $prev = document.createElement("a");
     $prev.innerHTML = "&#8678;";
     $prev.classList.add("pagination-previous");
-    if (hymns[0] === pos) {
+    if (pos === 0) {
       $prev.setAttribute("disabled", "");
     } else {
-      $prev.href = format_href(hymns.indexOf(pos) - 1);
+      $prev.onclick = () => {
+        goto_hymn(hymns[pos - 1]);
+      };
     }
     $navbar.append($prev);
     // List
@@ -80,11 +83,13 @@ function hymnsPagination() {
       // Link
       const $a = document.createElement("a");
       $a.classList.add("pagination-link");
-      if (hymn === pos) {
+      if (hymn === current) {
         $a.classList.add("is-current");
         $a.ariaCurrent = "page";
       } else {
-        $a.href = format_href(index);
+        $a.onclick = () => {
+          goto_hymn(hymns[index]);
+        };
       }
       $a.innerHTML = `${hymn}`;
       // List item
@@ -97,11 +102,12 @@ function hymnsPagination() {
     const $next = document.createElement("a");
     $next.innerHTML = "&#8680;";
     $next.classList.add("pagination-next");
-    $next.disa = hymns[hymns.length] === pos;
-    if (hymns[hymns.length] === pos) {
+    if (pos === hymns.length - 1) {
       $next.setAttribute("disabled", "");
     } else {
-      $next.href = format_href(hymns.indexOf(pos) + 1);
+      $next.onclick = () => {
+        goto_hymn(hymns[pos + 1]);
+      };
     }
     $navbar.append($next);
   }

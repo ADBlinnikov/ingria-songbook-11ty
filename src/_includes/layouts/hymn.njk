@@ -4,13 +4,16 @@ layout: layouts/base.njk
 <div class="block">
     <div class="tile is-ancestor m-2 p-2">
         <div class="tile is-parent is-6 is-vertical">
+            <div class="tile is-child box">
+                <p class="title">Гимн {{ name }}</p>
+                <p class="subtitle">Раздел: {{ section }}</p>
+            </div>
             {% if abcNotation %}
             <div id="music-sheet" class="tile is-child box">
                 <div id="abcString" hidden>{{ abcNotation }}</div>
                 <div id="paper"></div>
             </div>
             {% endif %}
-            <div class="tile is-child box">Раздел: {{ section }}</div>
         </div>
         <div class="tile is-parent">
             <div class="tile is-child box">{{ content | safe }}</div>

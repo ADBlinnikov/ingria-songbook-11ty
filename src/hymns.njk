@@ -13,9 +13,9 @@ layout: layouts/base.njk
 </li>
 {%- endmacro -%}
 
-{%- macro section(title, hymns) -%}
+{%- macro section(hymnGroup, hymns) -%}
 <section class="section">
-  <h1 class="title is-3">{{ title }}</h1>
+  <h1 class="title is-3">{{ hymnGroup }}</h1>
   <ul>
 
     {%- for hymn in hymns -%}
