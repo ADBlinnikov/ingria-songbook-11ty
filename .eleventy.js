@@ -5,8 +5,9 @@ module.exports = function (eleventyConfig) {
   });
 
   // Pass through files
-  eleventyConfig.addPassthroughCopy("images");
-  eleventyConfig.addPassthroughCopy("scripts");
+  eleventyConfig.addPassthroughCopy({ "src/images": "/images" });
+  eleventyConfig.addPassthroughCopy({ "src/scripts": "/scripts" });
+  eleventyConfig.addPassthroughCopy({ "src/public": "/" });
 
   // Shortcodes
   eleventyConfig.addPairedShortcode("verse", function (content, heading) {

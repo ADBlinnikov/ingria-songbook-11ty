@@ -128,11 +128,19 @@ function renderABC() {
   }
 }
 
+function installApp() {
+  const installApp = document.getElementById("install-app");
+  installApp.addEventListener("click", async () => {
+    deferredPrompt.prompt();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Global
   initMusicSheetToggleStorage();
   addMusicSheetToggleListener();
   navbar();
+  installApp();
   // Path-specific
   const url = new URL(window.location);
   if (url.pathname.startsWith("/hymns/")) {
