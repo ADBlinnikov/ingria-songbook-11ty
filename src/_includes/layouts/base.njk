@@ -34,17 +34,8 @@ title: Ingria Songbook
     {# Code #}
     <script src="/scripts/abcjs-basic-min.js" type="text/javascript"></script>
     <script src="/scripts/base.js" type="text/javascript"></script>
-    {# Register service worker #}
-    <script>
-      // Only register the service worker when not on localhost.
-      if (location.hostname !== 'llocalhost' && 'serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator
-            .serviceWorker
-            .register('/service-worker.js');
-        });
-      }
-    </script>
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
   </head>
   <body>
     <nav class="navbar has-background-primary is-transparent" role="navigation" aria-label="main navigation">
@@ -66,7 +57,7 @@ title: Ingria Songbook
               </a>
             </div>
           </div>
-          <div class="navbar-item">
+          <div id="install-app" class="navbar-item">
             <span class="icon-text has-text-black">
               <span class="icon">
                 <ion-icon name="download"></ion-icon>

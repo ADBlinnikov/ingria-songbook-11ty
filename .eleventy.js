@@ -16,7 +16,7 @@ module.exports = function (eleventyConfig) {
       .map((line) => line.trim())
       .filter((line) => line.length > 0)
       .map((line) => `<div>${line}</div>`);
-    return `<div class="block container is-fluid">
+    return `<div class="block container">
         <h3 class="subtitle has-text-grey">${heading}</h3>
         ${lines.join("")}
     </div>`;
