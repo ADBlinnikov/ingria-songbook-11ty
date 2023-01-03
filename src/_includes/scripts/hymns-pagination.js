@@ -23,9 +23,9 @@ class HymnsPagination {
     const paginationLinks = this.list.map((el) => {
       const innerHTML = this.format(el);
       if (el === this.current) {
-        return `<li><a class="pagination-link is-current">${innerHTML}</a></li>`;
+        return `<li><a class="pagination-link is-capitalized is-current">${innerHTML}</a></li>`;
       } else {
-        return `<li><a class="pagination-link" onclick="location.href='${el}';">${innerHTML}</a></li>`;
+        return `<li><a class="pagination-link is-capitalized" onclick="location.href='${el}';">${innerHTML}</a></li>`;
       }
     });
     const fragment = document.createRange().createContextualFragment(`

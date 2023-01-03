@@ -44,7 +44,8 @@ class Playbook {
     for (let i = 0; i < collection.length; i++) {
       hymns.push(`/hymns/${collection[i].innerHTML}`);
     }
-    console.log(hymns);
+    // Add liturgy
+    hymns.splice(1, 0, "/liturgy/confession");
     // Construct URI with params
     sessionStorage.setItem("list", window.btoa(hymns.join(";")));
     // Go to hymns page

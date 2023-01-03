@@ -13,9 +13,9 @@ layout: layouts/base.njk
                 <p class="subtitle">Раздел: {{ section }}</p>
             </div>
             {% if abcNotation %}
-                <div id="music-sheet" class="tile is-child box">
-                    <div id="abcString" hidden>{{ abcNotation }}</div>
-                    <div id="paper"></div>
+                <div class="tile is-child box music-sheet">
+                    <div class="abcString" hidden>{{ abcNotation }}</div>
+                    <div id="hymn-paper" class="paper"></div>
                 </div>
             {% endif %}
         </div>

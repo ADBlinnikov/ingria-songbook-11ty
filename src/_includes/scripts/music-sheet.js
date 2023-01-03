@@ -1,53 +1,58 @@
 class MusicSheet {
-    constructor(storageKey) {
-        this.storageKey = storageKey | "showMusicSheet"
-        this.switch = document.getElementById("showMusicSheet");
-        this.sheet = document.getElementById("music-sheet");
-        this.paper = document.getElementById("paper");
-        this.abcString = document.getElementById("abcString");
+  constructor(storageKey) {
+    this.storageKey = storageKey | "showMusicSheet";
+    this.switch = document.getElementById("showMusicSheet");
+    this.sheets = Array.from(document.getElementsByClassName("music-sheet"));
+  }
+  getState() {
+    return localStorage.getItem(this.storageKey) === "true" ? true : false;
+  }
+  setState(state) {
+    localStorage.setItem(this.storageKey, state);
+  }
+  renderABC() {
+    const abcjs = window.ABCJS;
+    this.sheets.forEach((el) => {
+      const paper = el.getElementsByClassName("paper").item(0);
+      const abcString = el.getElementsByClassName("abcString").item(0);
+      if ((paper !== null) & (abcString !== null)) {
+        const width = paper.clientWidth - 25;
+        const params = {
+          staffwidth: width,
+          wrap: { minSpacing: 1, maxSpacing: 1, preferredMeasuresPerLine: 4 },
+        };
+        abcjs.renderAbc(paper.id, abcString.innerHTML, params);
+      }
+    });
+  }
+  updateVisibility() {
+    const state = this.getState();
+    this.sheets.forEach((el) => {
+      if (state) {
+        el.style.display = "block";
+      } else {
+        el.style.display = "none";
+      }
+    });
+  }
+  toggle() {
+    if (this.switch) {
+      // Initialise from store
+      this.switch.checked = this.getState();
+      this.updateVisibility();
+      // Change event
+      this.switch.addEventListener("change", () => {
+        this.setState(this.switch.checked);
+        this.updateVisibility();
+      });
     }
-    getState() {
-        return localStorage.getItem(this.storageKey) === "true" ? true : false;
-    }
-    setState(state) {
-        localStorage.setItem(this.storageKey, state);
-    }
-    renderABC() {
-        if ((this.paper !== null) & (this.abcString !== null)) {
-            const abcjs = window.ABCJS;
-            const width = this.paper.clientWidth - 25;
-            console.log(width);
-            const params = {
-                staffwidth: width,
-                wrap: { minSpacing: 1, maxSpacing: 1, preferredMeasuresPerLine: 4 },
-            };
-            abcjs.renderAbc("paper", this.abcString.innerHTML, params);
-        }
-    }
-    updateMusicSheet() {
-        if (this.sheet) {
-            if (this.getState()) {
-                this.sheet.style.display = "block";
-            } else {
-                this.sheet.style.display = "none";
-            }
-        }
-    }
-    toggle() {
-        if (this.switch) {
-            this.switch.checked = this.getState()
-            this.switch.addEventListener("change", () => {
-                this.setState(this.switch.checked);
-                this.updateMusicSheet();
-            });
-        }
-    }
-    init() {
-        this.renderABC()
-        this.toggle()
-    }
+  }
+  init() {
+    this.toggle();
+    this.renderABC();
+  }
 }
 document.addEventListener("DOMContentLoaded", () => {
-    const sheet = new MusicSheet();
-    sheet.init();
+  const sheet = new MusicSheet();
+  sheet.init();
 });

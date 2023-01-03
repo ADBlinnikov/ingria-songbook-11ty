@@ -10,7 +10,7 @@ title: Ingria Songbook
   </head>
   <body>
     {% include 'partials/navbar.njk' %}
-    <main class="container">{{ content | safe }}</main>
+    <main>{{ content | safe }}</main>
     {% include "partials/base-scripts.njk" %}
     {% block js %}{% endblock %}
   </body>
