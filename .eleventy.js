@@ -1,13 +1,17 @@
+const pluginBabel = require('eleventy-plugin-babel');
+
+
 module.exports = function (eleventyConfig) {
+  // Compile js files with babel
+  eleventyConfig.addPlugin(pluginBabel, { "watch": ["src/_includes/scripts/*.js"], "outputDir": "_site/scripts" });
+
   // Watch CSS files for changes
   eleventyConfig.setBrowserSyncConfig({
     files: "./_site/css/**/*.css",
   });
 
   // Pass through files
-  eleventyConfig.addPassthroughCopy({ "src/images": "/images" });
-  eleventyConfig.addPassthroughCopy({ "src/scripts": "/scripts" });
-  eleventyConfig.addPassthroughCopy({ "src/public": "/" });
+  eleventyConfig.addPassthroughCopy({ "src/_public": "/" });
 
   // Shortcodes
   eleventyConfig.addPairedShortcode("verse", function (content, heading) {

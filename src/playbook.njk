@@ -2,6 +2,9 @@
 layout: layouts/base.njk
 ---
 
+{% block js %}
+    <script src="/scripts/playbook.js" type="text/javascript"></script>
+{% endblock %}
 {# List #}
 <div class="box p-5 m-5">
     <div class="title">Какие песни поем?</div>
@@ -9,10 +12,10 @@ layout: layouts/base.njk
     {# Buttons #}
     <div class="block field has-addons">
         <div class="control is-expanded">
-            <input id="song-input" class="input" type="text" placeholder="Номер гимна" />
+            <input id="song-input" class="input" type="text" placeholder="Номер гимна"/>
         </div>
         <div class="control">
-            <button class="button is-primary" onclick="addSong()">
+            <button id="add-song-btn" class="button is-primary">
                 Добавить
             </button>
         </div>
@@ -24,60 +27,3 @@ layout: layouts/base.njk
         Поехали
     </button>
 </div>
-{# Page logic #}
-<script>
-    function addSong() { // Get list and input
-        var ul = document.getElementById("song-list");
-        var input = document.getElementById("song-input");
-        var startBtn = document.getElementById("start-btn");
-        // Create new elements
-        var id = `li-${input.value}`
-        var li = document.createElement("li");
-        li.id = id;
-        li.className = "block";
-        var btn = document.createElement("button");
-        btn.ariaLabel = "Delete";
-        btn.className = "delete is-medium";
-        btn.setAttribute('onclick', `removeSong('${id}')`);
-        var span = document.createElement("span");
-        span.className = "tag is-medium";
-        var text = document.createElement("div");
-        text.className = "hymn-name";
-        text.appendChild(document.createTextNode(input.value));
-        // New elements structure
-        span.appendChild(text);
-        span.appendChild(btn);
-        li.appendChild(span);
-        // Append element to list
-        ul.appendChild(li);
-        // Change start button state
-        startBtn.removeAttribute('disabled');
-        // Clear input and focus
-        input.value = "";
-        input.focus();
-    }
-    function removeSong(id) {
-        var ul = document.getElementById("song-list");
-        var item = document.getElementById(id);
-        ul.removeChild(item);
-        if (ul.childElementCount === 0) {
-            var startBtn = document.getElementById("start-btn");
-            startBtn.setAttribute('disabled', true);
-        }
-    }
-    function start() {
-        // Get hymns as list 
-        const collection = document.getElementsByClassName("hymn-name");
-        var hymns = [];
-        for (let i = 0; i < collection.length; i++) {
-            hymns.push(collection[i].innerHTML);
-        }
-        console.log(hymns);
-        // Construct URI with params
-        const url = new URL(`/hymns/${hymns[0]}`, window.location.origin);
-        sessionStorage.setItem("list", window.btoa(hymns.join(";")));
-        console.log(url);
-        // Go to hymns page
-        window.location.replace(url.href);
-    }
-</script>

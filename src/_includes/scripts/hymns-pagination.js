@@ -1,13 +1,4 @@
-function updateMusicSheetState() {
-  const $el = document.getElementById("music-sheet");
-  if ($el) {
-    if (localStorage.getItem("showMusicSheet") === "false") {
-      $el.style.display = "none";
-    } else {
-      $el.style.display = "block";
-    }
-  }
-}
+
 
 function hymnsPagination() {
   const regex = /\/hymns\/(.*)\/$/;
@@ -75,20 +66,6 @@ function hymnsPagination() {
   }
 }
 
-function renderABC() {
-  const paper = document.getElementById("paper");
-  const abcString = document.getElementById("abcString");
-  if ((paper !== null) & (abcString !== null)) {
-    const abcjs = window.ABCJS;
-    const width = paper.clientWidth - 25;
-    console.log(width);
-    const params = {
-      staffwidth: width,
-      wrap: { minSpacing: 1, maxSpacing: 1, preferredMeasuresPerLine: 4 },
-    };
-    abcjs.renderAbc("paper", abcString.innerHTML, params);
-  }
-}
 
 document.addEventListener("DOMContentLoaded", () => {
   hymnsPagination();
