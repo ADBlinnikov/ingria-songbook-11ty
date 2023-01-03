@@ -1,74 +1,55 @@
-
-
-function hymnsPagination() {
-  const regex = /\/hymns\/(.*)\/$/;
-  const match = window.location.pathname.match(regex);
-  const list = sessionStorage.getItem("list");
-
-  if ((list !== null) & (match !== null)) {
-    const current = match[1];
-    const hymns = window.atob(list).split(";");
-    const pos = hymns.indexOf(current);
-    function goto_hymn(name) {
-      location.href = new URL(
-        `/hymns/${name}`,
-        window.location.origin
-      ).toString();
+class HymnsPagination {
+  constructor() {
+    this.target = document.getElementById("hymn-pagination");
+    this.current = window.location.pathname.replace(/\/+$/g, "");
+    this.list = this.getState();
+    const idx = this.list.indexOf(this.current);
+    this.isFirst = idx === 0;
+    this.isLast = idx === this.list.length - 1;
+    this.prev = this.isFirst ? "" : this.list.at(idx - 1);
+    this.next = this.isLast ? "" : this.list.at(idx + 1);
+  }
+  getState() {
+    const state = sessionStorage.getItem("list");
+    if (state) {
+      return window.atob(state).split(";");
     }
-    console.log(`Pagination: list=${list} hymns=${hymns}`);
-    const $navbar = document.getElementById("hymn-pagination");
-    // Previous
-    const $prev = document.createElement("a");
-    $prev.innerHTML = "&#8678;";
-    $prev.classList.add("pagination-previous");
-    if (pos === 0) {
-      $prev.setAttribute("disabled", "");
-    } else {
-      $prev.onclick = () => {
-        goto_hymn(hymns[pos - 1]);
-      };
-    }
-    $navbar.append($prev);
-    // List
-    const $ul = document.createElement("ul");
-    $ul.classList.add("pagination-list");
-    hymns.forEach((hymn, index) => {
-      // Link
-      const $a = document.createElement("a");
-      $a.classList.add("pagination-link");
-      if (hymn === current) {
-        $a.classList.add("is-current");
-        $a.ariaCurrent = "page";
+  }
+  format(link) {
+    const match = link.split("/");
+    return match[match.length - 1];
+  }
+  paginationBar() {
+    const paginationLinks = this.list.map((el) => {
+      const innerHTML = this.format(el);
+      if (el === this.current) {
+        return `<li><a class="pagination-link is-current">${innerHTML}</a></li>`;
       } else {
-        $a.onclick = () => {
-          goto_hymn(hymns[index]);
-        };
+        return `<li><a class="pagination-link" onclick="location.href='${el}';">${innerHTML}</a></li>`;
       }
-      $a.innerHTML = `${hymn}`;
-      // List item
-      const $li = document.createElement("li");
-      $li.appendChild($a);
-      $ul.append($li);
     });
-    $navbar.append($ul);
-    // Next
-    const $next = document.createElement("a");
-    $next.innerHTML = "&#8680;";
-    $next.classList.add("pagination-next");
-    if (pos === hymns.length - 1) {
-      $next.setAttribute("disabled", "");
-    } else {
-      $next.onclick = () => {
-        goto_hymn(hymns[pos + 1]);
-      };
-    }
-    $navbar.append($next);
+    const fragment = document.createRange().createContextualFragment(`
+    <a 
+        class="pagination-previous" 
+        ${this.isFirst ? "disabled" : ""} 
+        onclick="location.href='${this.prev}';"
+    >&#8678;</a>
+    <ul class="pagination-list">${paginationLinks.join("")}</ul>
+    <a 
+        class="pagination-next" 
+        ${this.isLast ? "disabled" : ""}
+        onclick="location.href='${this.next}';"
+    >&#8680;</a>
+    `);
+    this.target.append(fragment);
+  }
+  init() {
+    this.paginationBar();
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
-  hymnsPagination();
-  renderABC();
-  updateMusicSheetState();
+  //   hymnsPagination();
+  const paging = new HymnsPagination();
+  paging.init();
 });

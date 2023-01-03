@@ -1,18 +1,18 @@
 class Playbook {
-    constructor() {
-        this.songList = document.getElementById("song-list");
-        this.inputElem = document.getElementById("song-input");
-        this.addSongBtn = document.getElementById("add-song-btn");
-        this.startBtn = document.getElementById("start-btn");
+  constructor() {
+    this.songList = document.getElementById("song-list");
+    this.inputElem = document.getElementById("song-input");
+    this.addSongBtn = document.getElementById("add-song-btn");
+    this.startBtn = document.getElementById("start-btn");
+  }
+  add() {
+    const val = this.inputElem.value;
+    if (!val) {
+      return;
     }
-    add() {
-        const val = this.inputElem.value;
-        if (!val) {
-            return
-        }
-        // Create new list item and add it to list
-        const id = `li-${val}`
-        const fragment = document.createRange().createContextualFragment(`
+    // Create new list item and add it to list
+    const id = `li-${val}`;
+    const fragment = document.createRange().createContextualFragment(`
         <li id="${id}" class="block">
             <span class="tag is-medium">
                 <div class="hymn-name">${val}</div>
@@ -20,44 +20,47 @@ class Playbook {
             </span>
         </li>
         `);
-        fragment.getElementById(`remove-btn-${val}`).onclick = () => { this.remove(id) }
-        this.songList.append(fragment);
-        // Change start button state
-        this.startBtn.removeAttribute('disabled');
-        // Clear input and focus
-        this.inputElem.value = "";
-        this.inputElem.focus();
+    fragment.getElementById(`remove-btn-${val}`).onclick = () => {
+      this.remove(id);
+    };
+    this.songList.append(fragment);
+    // Change start button state
+    this.startBtn.removeAttribute("disabled");
+    // Clear input and focus
+    this.inputElem.value = "";
+    this.inputElem.focus();
+  }
+  remove(id) {
+    var item = document.getElementById(id);
+    this.songList.removeChild(item);
+    if (this.songList.childElementCount === 0) {
+      this.startBtn.setAttribute("disabled", true);
     }
-    remove(id) {
-        var item = document.getElementById(id);
-        this.songList.removeChild(item);
-        if (this.songList.childElementCount === 0) {
-            this.startBtn.setAttribute('disabled', true);
-        }
+  }
+  start() {
+    // Get hymns as list
+    const collection = document.getElementsByClassName("hymn-name");
+    var hymns = [];
+    for (let i = 0; i < collection.length; i++) {
+      hymns.push(`/hymns/${collection[i].innerHTML}`);
     }
-    start() {
-        // Get hymns as list 
-        const collection = document.getElementsByClassName("hymn-name");
-        var hymns = [];
-        for (let i = 0; i < collection.length; i++) {
-            hymns.push(collection[i].innerHTML);
-        }
-        console.log(hymns);
-        // Construct URI with params
-        const url = new URL(`/hymns/${hymns[0]}`, window.location.origin);
-        sessionStorage.setItem("list", window.btoa(hymns.join(";")));
-        console.log(url);
-        // Go to hymns page
-        window.location.replace(url.href);
-
-    }
-    init() {
-        this.addSongBtn.onclick = () => { this.add() }
-        this.startBtn.onclick = () => { this.start() }
-    }
+    console.log(hymns);
+    // Construct URI with params
+    sessionStorage.setItem("list", window.btoa(hymns.join(";")));
+    // Go to hymns page
+    window.location.replace(hymns[0]);
+  }
+  init() {
+    this.addSongBtn.onclick = () => {
+      this.add();
+    };
+    this.startBtn.onclick = () => {
+      this.start();
+    };
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const playbook = new Playbook();
-    playbook.init();
+  const playbook = new Playbook();
+  playbook.init();
 });
