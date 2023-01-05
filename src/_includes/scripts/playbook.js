@@ -45,7 +45,9 @@ class Playbook {
       hymns.push(`/hymns/${collection[i].innerHTML}`);
     }
     // Add liturgy
-    hymns.splice(1, 0, "/liturgy/confession");
+    hymns.splice(1, 0, "/liturgy/penitence");
+    hymns.splice(2, 0, "/liturgy/gloria");
+    hymns.splice(5, 0, "/liturgy/symbol");
     // Construct URI with params
     sessionStorage.setItem("list", window.btoa(hymns.join(";")));
     // Go to hymns page

@@ -5,10 +5,10 @@ class MusicSheet {
     this.sheets = Array.from(document.getElementsByClassName("music-sheet"));
   }
   getState() {
-    return localStorage.getItem(this.storageKey) === "true" ? true : false;
+    return sessionStorage.getItem(this.storageKey) === "true" ? true : false;
   }
   setState(state) {
-    localStorage.setItem(this.storageKey, state);
+    sessionStorage.setItem(this.storageKey, state);
   }
   renderABC() {
     const abcjs = window.ABCJS;
@@ -28,10 +28,26 @@ class MusicSheet {
   updateVisibility() {
     const state = this.getState();
     this.sheets.forEach((el) => {
+      const paper = el.getElementsByClassName("paper").item(0);
+      const lyrics = el.getElementsByClassName("lyrics").item(0);
       if (state) {
-        el.style.display = "block";
+        if (paper) {
+          paper.style.display = "block";
+        }
+        if (lyrics) {
+          lyrics.style.display = "none";
+        } else {
+          el.style.display = "block";
+        }
       } else {
-        el.style.display = "none";
+        if (paper) {
+          paper.style.display = "none";
+        }
+        if (lyrics) {
+          lyrics.style.display = "inline";
+        } else {
+          el.style.display = "none";
+        }
       }
     });
   }
