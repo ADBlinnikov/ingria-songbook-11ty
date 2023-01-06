@@ -1,0 +1,10 @@
+---
+layout: layouts/base.pug
+---
+doctype html
+is-land(on:visible v-scope='{ count: 0 }' autoinit="petite-vue" import="https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js")
+    div Petite Vue
+    template(data-island)
+        button(@click="count++") ⬆️
+        button(@click="count--") ⬇️
+        span(v-html="count") 0

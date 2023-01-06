@@ -1,0 +1,16 @@
+---
+title: Список гимнов Сборника песен Церкви Ингрии
+layout: layouts/base.pug
+---
+h1.title.is-2= title
+ul
+  each hymns, hymnGroup in Object.fromEntries(collections.hymnsGroup)
+    li
+      section.section
+        h1.title.is-3= hymnGroup
+        ul 
+          each hymn in hymns
+            li
+              a(href=hymn.url)
+                span(class="is-size-4 has-text-black-bis pr-5")= hymn.fileSlug
+                span(class="is-size-5 has-text-grey-dark")= hymn.data.title

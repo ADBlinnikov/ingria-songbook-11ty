@@ -12,6 +12,7 @@ module.exports = function (eleventyConfig) {
 
   // Pass through files
   eleventyConfig.addPassthroughCopy({ "src/_public": "/" });
+  eleventyConfig.addPassthroughCopy({ "node_modules/@11ty/is-land/is-land.js": "/is-land.js" });
 
   // Shortcodes
   eleventyConfig.addPairedShortcode("verse", function (content, heading) {

@@ -1,0 +1,37 @@
+is-land(on:visible)
+    div#navbar-app(v-scope='Navbar()')
+        template(data-island)
+            nav.navbar.has-background-primary.is-transparent(role="navigation" aria-label="main navigation")
+                .navbar-brand
+                    a.navbar-item(href="/")
+                        img(src="/favicon.png" width="28" height="28" alt="Logo")
+                    a.navbar-burger(role="button" ref="burger" @click='toggle' aria-label="menu" aria-expanded="false")
+                        span(aria-hidden="true")
+                        span(aria-hidden="true")
+                        span(aria-hidden="true")
+                .navbar-menu.has-background-primary#navMenu(ref="menu")
+                    .navbar-start
+                        a.navbar-item(href="/")
+                            span.has-text-dark.has-text-weight-semibold ДОМОЙ
+                        a.navbar-item(href="/hymns")
+                            span.has-text-dark.has-text-weight-semibold ГИМНЫ
+                    .navbar-end
+                        .navbar-item
+                            .buttons
+                                a.button.is-link(href="/playbook/") Я в церкви
+                        .navbar-item
+                            .field
+                                input#showMusicSheet.switch.is-info(type="checkbox" name="showMusicSheet")
+                                label(for="showMusicSheet") Ноты
+    template(data-island)
+        script(type="module" defer).
+            import { createApp } from "https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js";
+            function Navbar(props) {
+                return {
+                    toggle() {
+                        this.$refs.burger.classList.toggle("is-active");
+                        this.$refs.menu.classList.toggle("is-active");
+                    }
+                }
+            }
+            createApp({Navbar}).mount("#navbar-app");
