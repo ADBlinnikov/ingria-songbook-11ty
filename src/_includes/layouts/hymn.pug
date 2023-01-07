@@ -2,15 +2,20 @@
 layout: layouts/base.pug
 ---
 .block
-    .tile.is-ancestor.m-2.p-2
-        .tile.is-parent.is-6.is-vertical
-            .tile.is-child.box
-                p.title Гимн #{name}
-                p.subtitle Раздел: #{section}
-            if abcNotation
-                .tile.is-child.box.music-sheet
-                    .abcString(hidden) !{abcNotation}
-                    #hymn-paper.paper
-        .tile.is-parent
-            .tile.is-child.box !{content}
-include /partials/playlist-paging.pug
+    is-land(on:visible)
+        div#music-app(v-scope='MusicSheet()' @vue:mounted="render()")
+            .tile.is-ancestor.m-2
+                .tile.is-parent.is-6.is-vertical
+                    .tile.is-child.box
+                        p.title Гимн #{name}
+                        p.subtitle Раздел: #{section}
+                    if abcNotation
+                        .tile.is-child.box(ref="abc-hymn")
+                            #hymn-abc.abcString(hidden) !{abcNotation}
+                            #hymn-paper.paper
+                            #hymn-lyrics.lyrics Для этого гимна доступны ноты
+                .tile.is-parent
+                    .tile.is-child.box !{content}
+        include /partials/music-sheet/index.pug
+.block
+    include /partials/playlist-paging/index.pug

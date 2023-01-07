@@ -1,0 +1,31 @@
+---
+layout: layouts/base.pug
+---
+section.hero 
+    .hero-body 
+        p.title Какие песни поем?
+        is-land(on:visible)
+            div#playbook-app(v-scope='Playbook()')
+                template(data-island)
+                    .box
+                        ul#song-list.block
+                            li(v-for='(song, index) in list' :key="index" class='block')
+                                span.tag.is-medium
+                                    div(v-html="song")
+                                    button.delete.is-medium(aria-label="Delete" @click='remove(index)')
+                        .block.field.has-addons
+                            .control.is-expanded
+                                input#song-input.input(
+                                    ref='songInput'
+                                    type='text'
+                                    v-model='newSong'
+                                    placeholder='Номер гимна'
+                                    @keyup.enter='add'
+                                )
+                            .control
+                                #add-song-btn.button.is-primary(@click='add') Добавить
+                        .block 
+                            button#start-btn.button.is-link.is-medium.is-fullwidth(:disabled="list.length === 0" @click="start") Поехали
+            template(data-island)
+                script(type="module")
+                    include index.js

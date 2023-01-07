@@ -1,0 +1,24 @@
+doctype html
+is-land(on:idle)
+    div#paging-app(v-scope='Paging()')
+        template(data-island)
+            .block 
+                nav.pagination.is-centered(role="navigation" aria-label="pagination")
+                    a.pagination-previous(
+                        @click="goto(prev())"
+                        :class="{ 'is-disabled': isFirst() }"
+                    ) &#8678;
+                    ul.pagination-list
+                        li(v-for="(item, idx) in list" v-bind:key="item")
+                            a.pagination-link.is-capitalized(
+                                :class="{ 'is-current': idx === index() }"
+                                @click="goto(list[idx])" 
+                                v-html="format(item)"
+                            )
+                    a.pagination-next(
+                        @click="goto(next())"
+                        :class="{ 'is-disabled': isLast() }"
+                    ) &#8680;
+    template(data-island)
+        script(type="module")
+            include index.js

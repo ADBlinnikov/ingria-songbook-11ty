@@ -1,10 +1,4 @@
-const pluginBabel = require('eleventy-plugin-babel');
-
-
 module.exports = function (eleventyConfig) {
-  // Compile js files with babel
-  eleventyConfig.addPlugin(pluginBabel, { "watch": ["src/_includes/scripts/*.js"], "outputDir": "_site/scripts" });
-
   // Watch CSS files for changes
   eleventyConfig.setBrowserSyncConfig({
     files: "./_site/css/**/*.css",

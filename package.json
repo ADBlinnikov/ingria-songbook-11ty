@@ -24,7 +24,6 @@
   "dependencies": {
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
-    "eleventy-plugin-babel": "^1.0.1",
     "nunjucks": "^3.2.3",
     "sass": "^1.53.0"
   }

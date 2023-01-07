@@ -1,10 +1,8 @@
 @charset "utf-8";
 // If need, change your variables before importing Bulma
 $primary: #88bbb6;
+$family-primary: 'Oswald', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+;
 // @import "bulma/sass/utilities/_all.sass";
 // @import "bulma/sass/grid/columns.sass";
 @import "../node_modules/bulma/bulma.sass", "../node_modules/bulma-switch/dist/css/bulma-switch.min";
-
-.music-sheet {
-    display: inline;
-}

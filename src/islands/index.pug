@@ -1,0 +1,17 @@
+---
+layout: layouts/base.pug
+---
+is-land#islands-app(on:visible)
+    div(v-scope='Counter()' @vue:mounted="console.log('mounted on: ', $el)") One
+        template(data-island)
+            button(@click="plus()") plus 
+            button(@click="minus()") minus 
+            span(v-html="count") 0
+    div(v-scope='Counter()') Two
+        template(data-island)
+            button(@click="plus()") plus 
+            button(@click="minus()") minus 
+            span(v-html="count") 0
+    template(data-island)
+        script(type="module")
+            include index.js
