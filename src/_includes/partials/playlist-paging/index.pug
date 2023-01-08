@@ -5,19 +5,19 @@ is-land(on:idle)
             .block 
                 nav.pagination.is-centered(role="navigation" aria-label="pagination")
                     a.pagination-previous(
-                        @click="goto(prev())"
-                        :class="{ 'is-disabled': isFirst() }"
+                        @click="goto(prev)"
+                        :class="{ 'is-disabled': isFirst }"
                     ) &#8678;
                     ul.pagination-list
                         li(v-for="(item, idx) in list" v-bind:key="item")
                             a.pagination-link.is-capitalized(
-                                :class="{ 'is-current': idx === index() }"
-                                @click="goto(list[idx])" 
-                                v-html="format(item)"
+                                :class="{ 'is-current': idx === index }"
+                                @click="goto(item.href)" 
+                                v-html="item.label"
                             )
                     a.pagination-next(
-                        @click="goto(next())"
-                        :class="{ 'is-disabled': isLast() }"
+                        @click="goto(next)"
+                        :class="{ 'is-disabled': isLast }"
                     ) &#8680;
     template(data-island)
         script(type="module")

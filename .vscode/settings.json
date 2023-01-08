@@ -1,0 +1,4 @@
+{
+  "spellright.language": ["Russian-English Bilingual"],
+  "spellright.documentTypes": ["markdown", "latex", "plaintext", "javascript"]
+}

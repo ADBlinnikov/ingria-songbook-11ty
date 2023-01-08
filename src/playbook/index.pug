@@ -3,7 +3,7 @@ layout: layouts/base.pug
 ---
 section.hero 
     .hero-body 
-        p.title Какие песни поем?
+        p.title.has-text-centered Какие песни поем?
         is-land(on:visible)
             div#playbook-app(v-scope='Playbook()')
                 template(data-island)
@@ -11,26 +11,45 @@ section.hero
                         .field
                             input#liturgy.switch.is-info(
                                 type="checkbox" 
-                                :checked="false"
+                                :checked="switchState"
                                 @click="toggle"
                             )
-                            label(for="liturgy") Вы на литургии?
-                        ul#song-list.block
-                            li(v-for='(song, index) in list' :key="index" class='block')
-                                span.tag.is-medium
-                                    div(v-html="song")
-                                    button.delete.is-medium(aria-label="Delete" @click='remove(index)')
-                        .block.field.has-addons
-                            .control.is-expanded
-                                input#song-input.input(
-                                    ref='songInput'
-                                    type='text'
-                                    v-model='newSong'
-                                    placeholder='Номер гимна'
-                                    @keyup.enter='add'
-                                )
-                            .control
-                                #add-song-btn.button.is-primary(@click='add') Добавить
+                            label(for="liturgy") Вы на литургии? (ТУТ БУДЕТ РОСКОШЕСТВО, А ПОКА ЭКСПЕРИМЕНТАЛЬНО)
+                        .columns.is-centered 
+                            .column.is-6 
+                                .list.has-hoverable-list-items
+                                    ul
+                                        .list-item(v-for='(song, index) in list' :key="index") 
+                                            .list-item-content
+                                                input.input(
+                                                    v-if='editing === index'
+                                                    v-model='editedSong'
+                                                    @keyup.enter='edit(index)'
+                                                    placeholder='Номер гимна'
+                                                    type='text'
+                                                )
+                                                .list-item-title(
+                                                    v-else
+                                                    v-show='editing !== index'
+                                                    v-html="song.label"
+                                                    @click='startEdit(index)'
+                                                )
+                                            .list-item-controls
+                                                .buttons.is-right
+                                                    button.delete(aria-label="Delete" @click='remove(index)')
+                                        .list-item
+                                            .list-item-content 
+                                                .field.has-addons
+                                                    .control.is-expanded
+                                                        input#song-input.input(
+                                                            type='text'
+                                                            placeholder='Номер гимна'
+                                                            ref='songInput'
+                                                            v-model='newSong'
+                                                            @keyup.enter='add'
+                                                        )
+                                                    .control
+                                                        #add-song-btn.button.is-primary(@click='add') Добавить
                         .block 
                             button#start-btn.button.is-link.is-medium.is-fullwidth(:disabled="list.length === 0" @click="start") Поехали
             template(data-island)
