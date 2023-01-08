@@ -8,6 +8,13 @@ section.hero
             div#playbook-app(v-scope='Playbook()')
                 template(data-island)
                     .box
+                        .field
+                            input#liturgy.switch.is-info(
+                                type="checkbox" 
+                                :checked="false"
+                                @click="toggle"
+                            )
+                            label(for="liturgy") Вы на литургии?
                         ul#song-list.block
                             li(v-for='(song, index) in list' :key="index" class='block')
                                 span.tag.is-medium
